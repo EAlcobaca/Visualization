@@ -25,7 +25,7 @@ var parCoord = function(){
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.csv("../../data/data.csv", function(error, data) {
+    d3.csv("data.csv", function(error, data) {
 
         // Extract the list of dimensions and create a scale for each.
         x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
