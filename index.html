@@ -11,17 +11,17 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
         <!--
-        <script type="text/javascript" src="site/D3/d3.js"></script>
-        <script src="http://d3js.org/d3.v3.min.js"></script>
-        -->
+            <script type="text/javascript" src="site/D3/d3.js"></script>
+            <script src="http://d3js.org/d3.v3.min.js"></script>
+            -->
 
-        <script type="text/javascript" src="site/D3/d3.v3.min.js"></script>
-        <script type="text/javascript" src="site/javascript/D3-visualization.js"></script>
+            <script type="text/javascript" src="site/D3/d3.v3.min.js"></script>
+            <script type="text/javascript" src="site/javascript/D3-visualization.js"></script>
 
-        <style>
-            body {
-             position: relative; 
-            }
+            <style>
+        body {
+            position: relative; 
+        }
             svg {
                 font: 10px sans-serif;
             }
@@ -67,7 +67,7 @@
             }
 
 
-        </style>
+            </style>
     </head>
     <body data-spy="scroll" data-target=".navbar" data-offset="50">
 
@@ -99,27 +99,31 @@
         </div>
 
 
-        <div id="section2" class="container-fluid bg-warning" style="padding-top:70px;padding-bottom:70px">
+        <div id="section2" class="container-fluid " style="padding-top:70px;padding-bottom:70px">
             <h2>Scatter Plot</h2>
+            <div>
+            <br>
+            <label>x-axis </label>
+            <select id="xopt-section2">
+            </select>
+
+            <label>y-axis </label>
+            <select id="yopt-section2">
+            </select>
+            <button type="button" id="btn-section2" onclick="changeScatter()" >Change</button>
+            <br>
+            <br>
+            </div>
+
+            <div id="graph-section2">
+            </div>
+
         </div>
 
 
         <div id="section3" class="container-fluid bg-secondary" style="padding-top:70px;padding-bottom:70px">
             <h2>Bar Plots</h2>
-            <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-            <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
         </div>
-        <div id="section41" class="container-fluid bg-danger" style="padding-top:70px;padding-bottom:70px">
-            <h1>Section 4 Submenu 1</h1>
-            <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-            <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-        </div>
-        <div id="section42" class="container-fluid bg-info" style="padding-top:70px;padding-bottom:70px">
-            <h1>Section 4 Submenu 2</h1>
-            <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-            <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
-        </div>
-
     </body>
 </html>
 

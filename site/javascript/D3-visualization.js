@@ -1,6 +1,110 @@
 window.onload = function() {
     parCoord();
+    fillSelec("#xopt-section2");
+    fillSelec("#yopt-section2");
+    //changeScatter();
+    scatterplot("World_Rank","Teaching_Rating");
+
+
+
 };
+
+var changeScatter = function(){
+    var nameX = $('#xopt-section2').find(":selected").text();
+    var nameY = $('#yopt-section2').find(":selected").text();
+    $("#graph-section2 svg").remove();
+    scatterplot(nameX,nameY);
+}
+
+var fillSelec = function(id) {
+    d3.csv("data.csv", function(error, data) {
+        var names = d3.keys(data[0]);
+        for (var i = 0; i < names.length; i++) {
+            if(i==0)
+                $(id).append('<option value="foo">'+names[i]+'</option>').attr("selected",true);
+            $(id).append('<option value="foo">'+names[i]+'</option>');
+        }
+    });
+ 
+}
+
+var scatterplot = function(nameX, nameY){
+
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    var x = d3.scale.linear()
+        .range([0, width]);
+
+    var y = d3.scale.linear()
+        .range([height, 0]);
+
+    var color = d3.scale.category10();
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+
+    var svg = d3.select("#graph-section2").append("svg")
+        .attr("width", width + margin.left + margin.right + 40)
+        .attr("height", height + margin.top + margin.bottom + 40)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    
+    d3.csv("data.csv", function(error, data) {
+        data.forEach(function(d) {
+            d[nameX] = +d[nameX];
+            d[nameY] = +d[nameY];
+        });
+        //data.forEach(function(d){ 
+        //    console.log(d['World_Rank'])
+        //    console.log(d) 
+        //});
+
+        x.domain(d3.extent(data, function(d) { return d[nameX]; })).nice();
+        y.domain(d3.extent(data, function(d) { return d[nameY]; })).nice();
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+            .append("text")
+            .attr("class", "label")
+            .attr("x", width)
+            .attr("y", 30)
+            .style("text-anchor", "end")
+            .text(nameX);
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("class", "label")
+        //.attr("transform", "rotate(-90)")
+            .attr("y", -15)
+            .attr("x", 90)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text(nameY)
+
+        svg.selectAll(".dot")
+            .data(data)
+            .enter().append("circle")
+            .attr("class", "dot")
+            .attr("r", 3.5)
+            .attr("cx", function(d) { return x(d[nameX]); })
+            .attr("cy", function(d) { return y(d[nameY]); })
+            .style("fill", function(d) { return "Blue"; });
+
+    });
+
+}
 
 var parCoord = function(){
 
