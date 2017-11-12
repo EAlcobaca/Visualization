@@ -33,7 +33,7 @@ var parCoord = function(){
                 .domain(d3.extent(data, function(p) { return +p[d]; }))
                 .range([height, 0]));
         }));
-        
+
         // Add grey background lines for context.
         background = svg.append("g")
             .attr("class", "background")
@@ -145,7 +145,7 @@ var parCoord = function(){
             .style("text-anchor", "middle")
             .text("Rank");
 
-         legendsvg.append("text")
+        legendsvg.append("text")
             .attr("class", "text")
             .attr("x", width + 5)
             .attr("y", height/3 +10)
