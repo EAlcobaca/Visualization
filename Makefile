@@ -6,6 +6,9 @@ server-up:
 
 preprocessing:
 	@python3.6 src/preprocessing.py
+	@python3.6 src/preprocessing2.py
+	@R CMD BATCH src/summCountry.R
+	@make clean
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
@@ -17,5 +20,6 @@ clean:
 	@find . -name '*~' -exec rm --force  {} +
 	@find . -name '*.pyc' -exec rm --force {} +
 	@find . -name '*.pyo' -exec rm --force {} +
+	@find . -name '*.Rout' -exec rm --force {} +
 	@echo "<< Clean ... >>"
 

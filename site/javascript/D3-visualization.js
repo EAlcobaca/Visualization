@@ -2,9 +2,10 @@ window.onload = function() {
     parCoord();
     fillSelec("#xopt-section2");
     fillSelec("#yopt-section2");
+    fillSelec("#yopt-section3");
     //changeScatter();
     scatterplot("World_Rank","Teaching_Rating");
-
+    barplot("Teaching_Rating");
 
 
 };
@@ -25,13 +26,88 @@ var fillSelec = function(id) {
             $(id).append('<option value="foo">'+names[i]+'</option>');
         }
     });
- 
+
+}
+
+var barplot = function(){
+
+    var margin= {top: 20, right: 30, bottom: 30, left: 130};
+
+    var width= 1200- margin.left- margin.right;		
+    var height= 520- margin.top- margin.bottom;
+
+    var space= 2;
+
+    var svg= d3.select("#graph-section3")
+        .append("svg")
+        .attr("width", width+ margin.left+ margin.right)
+        .attr("height", height+ margin.top+ margin.bottom)
+        .append("g")
+        .attr("transform", "translate("+ margin.left +", "+ margin.top +")");
+
+    d3.csv("dataSumm.csv", function(error, dataset){
+        if (error) {
+            console.log(error);
+            return;
+        }
+
+        var scaleY = d3.scale.ordinal()
+            .rangeBands([height, 0])
+            .domain(dataset.map(function(d) { return d.Country; }));
+
+        var scaleX = d3.scale.linear()
+            .range([0, width])
+            //.domain([0, d3.max(dataset, function(d) { return d.Frequency; })]);
+            .domain([0, 65]);
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("class", "bar")
+            .attr("y", function(d, i) { return (dataset.length -i -1)* (height/ dataset.length); })
+            .attr("x", 20)
+            .attr("width", function(d){ return scaleX(d.Frequency); })
+            .attr("height", (height/ dataset.length) -space )
+            .attr("fill", '.bar');
+
+
+        var xAxis = d3.svg.axis()
+            .scale(scaleX)
+            //.attr("transform", "rotate(-90)")
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(scaleY)
+            .ticks(10, "")
+            .orient("left");
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(20, " + height + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            //.attr("transform", "rotate(0)")	// Label do eixo
+            //.attr("transform", "translate("+(width/2)+","+(heigth/2)+")")	// Label do eixo
+            .attr("y", height+ 20)
+            .attr("x", 20+ 60 + (width/2))
+            .attr("dy", ".75em")
+            .style("text-anchor", "end")
+            .text("Frequency of Occurence");
+
+
+    });
+
 }
 
 var scatterplot = function(nameX, nameY){
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width = 960 - margin.left - margin.right,
+        width = 800 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
     var x = d3.scale.linear()
@@ -56,16 +132,12 @@ var scatterplot = function(nameX, nameY){
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    
+
     d3.csv("data.csv", function(error, data) {
         data.forEach(function(d) {
             d[nameX] = +d[nameX];
             d[nameY] = +d[nameY];
         });
-        //data.forEach(function(d){ 
-        //    console.log(d['World_Rank'])
-        //    console.log(d) 
-        //});
 
         x.domain(d3.extent(data, function(d) { return d[nameX]; })).nice();
         y.domain(d3.extent(data, function(d) { return d[nameY]; })).nice();
@@ -100,7 +172,7 @@ var scatterplot = function(nameX, nameY){
             .attr("r", 3.5)
             .attr("cx", function(d) { return x(d[nameX]); })
             .attr("cy", function(d) { return y(d[nameY]); })
-            .style("fill", function(d) { return "Blue"; });
+            .style("fill", '.dot');
 
     });
 
@@ -109,8 +181,8 @@ var scatterplot = function(nameX, nameY){
 var parCoord = function(){
 
     var margin = {top: 30, right: 10, bottom: 10, left: 10},
-        width = 1300 - margin.left - margin.right ,
-        height = 600 - margin.top - margin.bottom;
+        width = 1200 - margin.left - margin.right ,
+        height = 500 - margin.top - margin.bottom;
 
     var x = d3.scale.ordinal()
         .rangePoints([0, width], 1), y = {}, dragging = {};

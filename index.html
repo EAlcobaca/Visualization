@@ -41,11 +41,11 @@
             }
 
             .stop-top {
-                stop-color: #ef8a62;
+                stop-color: #67a9cf;
             }
 
             .stop-bottom {
-                stop-color: #67a9cf;
+                stop-color: #ef8a62;
             }
 
             .brush .extent {
@@ -65,6 +65,24 @@
                 text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
                 cursor: move;
             }
+            
+            .bar:hover {
+			    fill: #000;
+		    }
+		    
+            .dot:hover {
+			    fill: #000;
+		    }
+		    
+            .dot {
+		        cursor: pointer;
+			    fill: steelblue;
+	    	}
+
+           .bar {
+		        cursor: pointer;
+			    fill: steelblue;
+	    	}
 
 
             </style>
@@ -82,15 +100,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#section3">Bar Plots</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Section 4
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#section41">Link 1</a>
-                        <a class="dropdown-item" href="#section42">Link 2</a>
-                    </div>
-                </li>
             </ul>
         </nav>
 
@@ -102,15 +111,14 @@
         <div id="section2" class="container-fluid " style="padding-top:70px;padding-bottom:70px">
             <h2>Scatter Plot</h2>
             <div>
-            <br>
-            <label>x-axis </label>
-            <select id="xopt-section2">
+            <label>x-axis: </label>
+            <select id="xopt-section2" class="text-white bg-dark">
             </select>
 
-            <label>y-axis </label>
-            <select id="yopt-section2">
+            <label>y-axis: </label>
+            <select id="yopt-section2" class="text-white bg-dark">
             </select>
-            <button type="button" id="btn-section2" onclick="changeScatter()" >Change</button>
+            <button class="btn-dark" type="button" id="btn-section2" onclick="changeScatter()" >Change</button>
             <br>
             <br>
             </div>
@@ -121,8 +129,12 @@
         </div>
 
 
-        <div id="section3" class="container-fluid bg-secondary" style="padding-top:70px;padding-bottom:70px">
+        <div id="section3" class="container-fluid" style="padding-top:70px;padding-bottom:70px">
             <h2>Bar Plots</h2>
+            <div id="graph-section3">
+            </div>
+
+
         </div>
     </body>
 </html>
