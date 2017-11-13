@@ -28,6 +28,13 @@ This system is online through github.io, access https://ealcobaca.github.io/Visu
 
 To access the system offline it is necessary : (i) preprocess the data (ii) activate HTTP server (iii) access the web page with some browser (preferable firefox or chrome).
 
+### Clone
+
+To clone this repository in your machine do:
+```
+git clone https://github.com/EAlcobaca/Visualization.git
+```
+
 #### (i) and (ii)
 
 ```
@@ -43,7 +50,7 @@ make all
 
 to access the site type
 ```
-firefox 
+firefox localhost:8000/index.html
 ```
 
 ### More Commands
