@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<!--
+	Edesio Alcobaça
+	M.Sc. Student in Computer Science
+	Institute of Mathematical and Computer Sciences - ICMC
+	University of São Paulo - USP
+	São Carlos, São Paulo, Brazil.
+
+    LICENSE - GNU GENERAL PUBLIC LICENSE Version 2
+*/
+-->
 
 
 <html lang="en">
@@ -10,18 +20,12 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-        <!--
-            <script type="text/javascript" src="site/D3/d3.js"></script>
-            <script src="http://d3js.org/d3.v3.min.js"></script>
-            -->
-
-            <script type="text/javascript" src="site/D3/d3.v3.min.js"></script>
-            <script type="text/javascript" src="site/javascript/D3-visualization.js"></script>
-
-            <style>
-        body {
-            position: relative; 
-        }
+        <script type="text/javascript" src="site/D3/d3.v3.min.js"></script>
+        <script type="text/javascript" src="site/javascript/D3-visualization.js"></script>
+        <style>
+            body {
+                position: relative; 
+            }
             svg {
                 font: 10px sans-serif;
             }
@@ -85,8 +89,10 @@
 	    	}
 
 
-            </style>
+        </style>
+
     </head>
+
     <body data-spy="scroll" data-target=".navbar" data-offset="50">
 
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">  
@@ -105,11 +111,13 @@
 
         <div id="section1" class="container-fluid" style="padding-top:70px;padding-bottom:70px">
             <h2> Parallel Coordinates </h2>
+            <h3>Select the set of lines that you want to study</h3>
         </div>
 
 
         <div id="section2" class="container-fluid " style="padding-top:70px;padding-bottom:70px">
             <h2>Scatter Plot</h2>
+            <h3>Select the attributes that you want to study</h3>
             <div>
             <label>x-axis: </label>
             <select id="xopt-section2" class="text-white bg-dark">
@@ -131,6 +139,7 @@
 
         <div id="section3" class="container-fluid" style="padding-top:70px;padding-bottom:70px">
             <h2>Bar Plots</h2>
+            <h3>Number of occurrence of the country among the 200 best ranked</h3>
             <div id="graph-section3">
             </div>
 

@@ -1,29 +1,44 @@
+/*
+	Edesio Alcobaça
+	M.Sc. Student in Computer Science
+	Institute of Mathematical and Computer Sciences - ICMC
+	University of São Paulo - USP
+	São Carlos, São Paulo, Brazil.
+
+    LICENSE - GNU GENERAL PUBLIC LICENSE Version 2
+*/
+
+
+
 window.onload = function() {
+    //funcoes que precisam ser inicializadas
     parCoord();
     fillSelec("#xopt-section2");
     fillSelec("#yopt-section2");
     fillSelec("#yopt-section3");
-    //changeScatter();
     scatterplot("World_Rank","Teaching_Rating");
     barplot("Teaching_Rating");
-
 
 };
 
 var changeScatter = function(){
+    //mudar atributos no scatter plot
+    //selecionar campo enviado pelo usuario
     var nameX = $('#xopt-section2').find(":selected").text();
     var nameY = $('#yopt-section2').find(":selected").text();
-    $("#graph-section2 svg").remove();
-    scatterplot(nameX,nameY);
+    $("#graph-section2 svg").remove();//remover svg
+    scatterplot(nameX,nameY);//re-escrever svg
 }
 
 var fillSelec = function(id) {
+    //auto preenchimento dos dropdown
     d3.csv("data.csv", function(error, data) {
         var names = d3.keys(data[0]);
         for (var i = 0; i < names.length; i++) {
             if(i==0)
                 $(id).append('<option value="foo">'+names[i]+'</option>').attr("selected",true);
-            $(id).append('<option value="foo">'+names[i]+'</option>');
+            else
+                $(id).append('<option value="foo">'+names[i]+'</option>');
         }
     });
 
@@ -31,13 +46,14 @@ var fillSelec = function(id) {
 
 var barplot = function(){
 
-    var margin= {top: 20, right: 30, bottom: 30, left: 130};
+    // Baseada nos codigos vistos em aula
 
+    var margin= {top: 20, right: 30, bottom: 30, left: 130};
     var width= 1200- margin.left- margin.right;		
     var height= 520- margin.top- margin.bottom;
-
     var space= 2;
 
+    //criar svg
     var svg= d3.select("#graph-section3")
         .append("svg")
         .attr("width", width+ margin.left+ margin.right)
@@ -45,36 +61,39 @@ var barplot = function(){
         .append("g")
         .attr("transform", "translate("+ margin.left +", "+ margin.top +")");
 
+    //ler .csv
     d3.csv("dataSumm.csv", function(error, dataset){
+        
+        //tratamento de erro
         if (error) {
             console.log(error);
             return;
         }
-
+        
+        //definir escalas X e Y
         var scaleY = d3.scale.ordinal()
             .rangeBands([height, 0])
             .domain(dataset.map(function(d) { return d.Country; }));
 
         var scaleX = d3.scale.linear()
             .range([0, width])
-            //.domain([0, d3.max(dataset, function(d) { return d.Frequency; })]);
             .domain([0, 65]);
 
+        //desenhar retangulos
         svg.selectAll("rect")
             .data(dataset)
             .enter()
             .append("rect")
-            .attr("class", "bar")
-            .attr("y", function(d, i) { return (dataset.length -i -1)* (height/ dataset.length); })
-            .attr("x", 20)
-            .attr("width", function(d){ return scaleX(d.Frequency); })
-            .attr("height", (height/ dataset.length) -space )
-            .attr("fill", '.bar');
+                .attr("class", "bar")
+                .attr("y", function(d, i) { return (dataset.length -i -1)* (height/ dataset.length); })
+                .attr("x", 20)
+                .attr("width", function(d){ return scaleX(d.Frequency); })
+                .attr("height", (height/ dataset.length) -space )
+                .attr("fill", '.bar');
 
-
+        //definir axis X e Y
         var xAxis = d3.svg.axis()
             .scale(scaleX)
-            //.attr("transform", "rotate(-90)")
             .orient("bottom");
 
         var yAxis = d3.svg.axis()
@@ -82,6 +101,7 @@ var barplot = function(){
             .ticks(10, "")
             .orient("left");
 
+        // adicionar axis
         svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(20, " + height + ")")
@@ -91,13 +111,11 @@ var barplot = function(){
             .attr("class", "y axis")
             .call(yAxis)
             .append("text")
-            //.attr("transform", "rotate(0)")	// Label do eixo
-            //.attr("transform", "translate("+(width/2)+","+(heigth/2)+")")	// Label do eixo
-            .attr("y", height+ 20)
-            .attr("x", 20+ 60 + (width/2))
-            .attr("dy", ".75em")
-            .style("text-anchor", "end")
-            .text("Frequency of Occurence");
+                .attr("y", height+ 20)
+                .attr("x", 20+ 60 + (width/2))
+                .attr("dy", ".75em")
+                .style("text-anchor", "end")
+                .text("Frequency of Occurrence");
 
 
     });
@@ -105,19 +123,22 @@ var barplot = function(){
 }
 
 var scatterplot = function(nameX, nameY){
-
+    // Este codigo foi baseado em:
+    // https://bl.ocks.org/mbostock/3887118
+    // 
+    
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = 800 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
+    //definicao das escalas em X e Y (dependem da entrada selecionada pelo usuario)
     var x = d3.scale.linear()
         .range([0, width]);
 
     var y = d3.scale.linear()
         .range([height, 0]);
-
-    var color = d3.scale.category10();
-
+    
+    //definicao das axis X e Y
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom");
@@ -126,66 +147,76 @@ var scatterplot = function(nameX, nameY){
         .scale(y)
         .orient("left");
 
+    // criando e plugando tag svg
     var svg = d3.select("#graph-section2").append("svg")
         .attr("width", width + margin.left + margin.right + 40)
         .attr("height", height + margin.top + margin.bottom + 40)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
+    //lendo o dataset e gerando o plot
     d3.csv("data.csv", function(error, data) {
         data.forEach(function(d) {
             d[nameX] = +d[nameX];
             d[nameY] = +d[nameY];
         });
 
+        //definindo dominio de X e Y
         x.domain(d3.extent(data, function(d) { return d[nameX]; })).nice();
         y.domain(d3.extent(data, function(d) { return d[nameY]; })).nice();
 
+        //criando as x-axis e adicionando a legenda
         svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis)
             .append("text")
-            .attr("class", "label")
-            .attr("x", width)
-            .attr("y", 30)
-            .style("text-anchor", "end")
-            .text(nameX);
+                .attr("class", "label")
+                .attr("x", width)
+                .attr("y", 30)
+                .style("text-anchor", "end")
+                .text(nameX);
 
+        //criando as x-axis e adicionando a legenda
         svg.append("g")
             .attr("class", "y axis")
             .call(yAxis)
             .append("text")
-            .attr("class", "label")
-        //.attr("transform", "rotate(-90)")
-            .attr("y", -15)
-            .attr("x", 90)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text(nameY)
+                .attr("class", "label")
+                .attr("y", -15)
+                .attr("x", 90)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text(nameY)
 
+        // criando e ajustando os pontos
         svg.selectAll(".dot")
             .data(data)
-            .enter().append("circle")
-            .attr("class", "dot")
-            .attr("r", 3.5)
-            .attr("cx", function(d) { return x(d[nameX]); })
-            .attr("cy", function(d) { return y(d[nameY]); })
-            .style("fill", '.dot');
+            .enter()
+            .append("circle")
+                .attr("class", "dot")
+                .attr("r", 3.5)
+                .attr("cx", function(d) { return x(d[nameX]); })
+                .attr("cy", function(d) { return y(d[nameY]); })
+                .style("fill", '.dot');
 
     });
 
 }
 
 var parCoord = function(){
-
+    // Este codigo foi baseado em:
+    // https://bl.ocks.org/jasondavies/1341281
+    // 
+ 
     var margin = {top: 30, right: 10, bottom: 10, left: 10},
         width = 1200 - margin.left - margin.right ,
         height = 500 - margin.top - margin.bottom;
 
     var x = d3.scale.ordinal()
         .rangePoints([0, width], 1), y = {}, dragging = {};
+
+    //definicao do dominio das cores, para colorir linhas
     var blue_to_brown = d3.scale.linear()
         .domain([1, 200])
         .range(["#ef8a62","#67a9cf"])
@@ -199,27 +230,28 @@ var parCoord = function(){
         .attr("width", width + margin.left + margin.right + 80)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    //lendo o conjunto de dados
     d3.csv("data.csv", function(error, data) {
 
-        // Extract the list of dimensions and create a scale for each.
+        // Extraindo a lista de dimensoes e criando uma escala para cada atributo(coluna)
         x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
             return d != "name" && (y[d] = d3.scale.linear()
                 .domain(d3.extent(data, function(p) { return +p[d]; }))
                 .range([height, 0]));
         }));
 
-        // Add grey background lines for context.
+        // Adiciona o background como gray
         background = svg.append("g")
             .attr("class", "background")
             .selectAll("path")
             .data(data)
             .enter()
             .append("path")
-            .attr("d", path);
+                .attr("d", path);
 
-        // Add blue foreground lines for focus.
+        // Adiciona foreground das linhas em relacao a escala de cor antes definida
         foreground = svg.append("g")
             .attr("class", "foreground")
             .selectAll("path")
@@ -229,13 +261,14 @@ var parCoord = function(){
             .attr('stroke', function(d) { return blue_to_brown(d['World_Rank']); });
 
 
-        // Add a group element for each dimension.
+        // Adiciona umm grupo de elemento para cada dimensao
         var g = svg.selectAll(".dimension")
             .data(dimensions)
-            .enter().append("g")
-            .attr("class", "dimension")
-            .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
-            .call(d3.behavior.drag()
+            .enter()
+            .append("g")
+                .attr("class", "dimension")
+                .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+                .call(d3.behavior.drag()
                 .origin(function(d) { return {x: x(d)}; })
                 .on("dragstart", function(d) {
                     dragging[d] = x(d);
@@ -259,17 +292,17 @@ var parCoord = function(){
                         .attr("visibility", null);
                 }));
 
-        // Add an axis and title.
+        // adicionar as axis e o titulo
         g.append("g")
             .attr("class", "axis")
             .each(function(d) { d3.select(this).call(axis.scale(y[d])); })
             .append("text")
-            .style("text-anchor", "middle")
-            .attr("y", -9)
-            .attr("transform", "rotate(10)")
-            .text(function(d) { return d; });
+                .style("text-anchor", "middle")
+                .attr("y", -9)
+                .attr("transform", "rotate(10)")
+                .text(function(d) { return d; });
 
-        // Add and store a brush for each axis.
+        // Adicionar os brush para selecionar as linhas nas axis
         g.append("g")
             .attr("class", "brush")
             .each(function(d) {
@@ -282,14 +315,13 @@ var parCoord = function(){
         var legendsvg = svg.append("g")
             .attr("class", "legendWrapper");
 
-        // Create the svg:defs element and the main gradient definition.
+        // Criar os elementos svg:defs e definir o gradiente
         var svgDefs = svg.append('defs');
 
         var mainGradient = svgDefs.append('linearGradient')
             .attr('id', 'mainGradient');
 
-        // Create the stops of the main gradient. Each stop will be assigned
-        // a class to style the stop using CSS.
+        // Criar os stops no gradiente e linkar com os css
         mainGradient.append('stop')
             .attr('class', 'stop-top')
             .attr('offset', '0');
@@ -298,7 +330,7 @@ var parCoord = function(){
             .attr('class', 'stop-bottom')
             .attr('offset', '1');
 
-        //Draw the Rectangle
+        //Desenhar o retangulo da legenda
         var legendWidth = 40;
         var legendHeight = height/3;
         svg.append("rect")
@@ -313,7 +345,7 @@ var parCoord = function(){
             .classed('filled', true);
 
 
-        //Append title
+        //Adicionar o titulo na legenda e os breaks
         legendsvg.append("text")
             .attr("class", "legendTitle")
             .attr("x", width - (legendWidth/2))
@@ -342,8 +374,6 @@ var parCoord = function(){
             .style("text-anchor", "left")
             .text("100");
 
-
-
     });
 
     function position(d) {
@@ -355,7 +385,7 @@ var parCoord = function(){
         return g.transition().duration(500);
     }
 
-    // Returns the path for a given data point.
+    // retorna o caminho para um ponto.
     function path(d) {
         return line(dimensions.map(function(p) { return [position(p), y[p](d[p])]; }));
     }

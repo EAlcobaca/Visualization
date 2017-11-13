@@ -32,19 +32,8 @@ dataset.apply(pd.to_numeric)
 #print missing values per column
 print('Missing values per column :\n', dataset.isnull().sum(),'\n')
 
-#data normalization zscore 
-#print(">> Data nomalization with zscore <<\n\n")
-#dataset['World_Rank'] = dataset['World_Rank'].astype(str).astype(float)
-#cols = list(dataset.columns)
-#for col in cols:
-#  if dataset[col].std() > 0:
-#    dataset[col] = (dataset[col] - dataset[col].mean())/dataset[col].std()
-#  else:
-#    print('error ... std is 0!\n')
-
 #save dataframe
 dataset = dataset.iloc[1:200,]
-#del dataset['World_Rank']
 del dataset['University_Name']
 dataset['Country'] = aux
 print(dataset.shape)
