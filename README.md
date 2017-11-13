@@ -78,15 +78,13 @@ In this directory is the heart of our application, it contains the javascript an
 
 ### pdf report
 ```
-data/
+report/
 ```
 In this directory we put a report in pdf format that describes the analysis of the data with the developed system.
 
 ## Authors
 
 * **Alcobaça, Edesio** - *Initial work* - [PurpleBooth](https://github.com/EAlcobaca)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
