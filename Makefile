@@ -15,7 +15,7 @@ help:
 	@echo "  clean             to remove build files"
 	@echo "  server-up         to run the HTTP Server"
 	@echo "  preprocessing     to preprocess the dataset"
-	@echo "  preprocessing     to preprocess and run HTTP Server"
+	@echo "  all               to preprocess and run HTTP Server"
 
 clean:
 	@find . -name '*~' -exec rm --force  {} +
