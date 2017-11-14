@@ -48,7 +48,7 @@ var barplot = function(){
 
     // Baseada nos codigos vistos em aula
 
-    var margin= {top: 20, right: 30, bottom: 30, left: 130};
+    var margin= {top: 20, right: 30, bottom: 30, left: 150};
     var width= 1200- margin.left- margin.right;		
     var height= 520- margin.top- margin.bottom;
     var space= 2;
